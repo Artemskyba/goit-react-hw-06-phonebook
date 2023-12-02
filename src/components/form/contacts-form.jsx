@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import { AddButton, Form } from './contacts-form.styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from 'redux/contactsSlice';
-import { updateFilter } from 'redux/filterSlice';
+import { nanoid } from '@reduxjs/toolkit';
 
 const contactSchema = Yup.object().shape({
   userName: Yup.string()
@@ -37,8 +37,9 @@ export const ContactForm = () => {
           if (existContact) {
             alert(`${userName} is already in contacts`);
           } else {
-            dispatch(addContact({ name: userName, number: userNumber }));
-            dispatch(updateFilter(''));
+            dispatch(
+              addContact({ id: nanoid(), name: userName, number: userNumber })
+            );
             actions.resetForm();
           }
         }}
